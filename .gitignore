@@ -10,7 +10,6 @@ env/
 *.env
 
 # Django static and media files
-/static/
 /media/
 
 # TailwindCSS and Node modules
