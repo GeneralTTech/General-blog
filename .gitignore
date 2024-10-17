@@ -9,17 +9,12 @@ venv/
 env/
 *.env
 
-# Django static and media files
-/media/
 
 # TailwindCSS and Node modules
-node_modules/
 tailwind.config.js
 postcss.config.js
 
 # Ignore local settings or secrets
-*.sqlite3
-db.sqlite3
 *.log
 local_settings.py
 .env
@@ -27,7 +22,3 @@ local_settings.py
 # MacOS specific
 .DS_Store
 
-# TinyMCE (if you include downloaded files)
-tinymce/
-*.min.js
-*.map
