@@ -23,7 +23,7 @@ def update_profile(request):
             user.has_profile = True
             user.save()
             
-            return redirect('home_page')
+            return redirect('user-dashboard')
     else:
         form = UpdateForm(instance=profiles)
             
