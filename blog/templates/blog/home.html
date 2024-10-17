@@ -131,14 +131,19 @@
            <h1 class="text-2xl font-semibold">Advertisement.</h1>
        </div>
 
-       <a href="" class="w-full h-[300px] mb-3 rounded">
-          <img src="{{ ads.image1.url }}" alt="" class="w-full h-[300px] mb-3 rounded object-cover">
-       </a>
+       
+       {% for ads in ads %}
 
-       <a href="" class="w-full h-[200px] rounded"> 
-          <img src="{{ ads.image2.url }}" alt="" class="w-full h-[200px] rounded object-cover">
-       </a>
-    
+        <a href="" class="w-full h-[300px] mb-3 rounded">
+            <img src="{{ ads.image1.url }}" alt="" class="w-full h-[300px] mb-3 rounded object-cover">
+        </a>
+
+        <a href="" class="w-full h-[200px] rounded"> 
+            <img src="{{ ads.image2.url }}" alt="" class="w-full h-[200px] rounded object-cover">
+        </a>
+      
+       {% endfor %}
+        
     </div>
 </section>    
 

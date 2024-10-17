@@ -18,7 +18,7 @@ def home(request, category_slug=None):
     
     posts = Post.objects.all()
     categories = Category.objects.all()
-    ads = Advertisement.objects.get()
+    ads = Advertisement.objects.all()
     
     
     if category_slug:
