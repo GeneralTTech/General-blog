@@ -1,0 +1,48 @@
+{% extends 'Base_nav.html' %}
+
+{% block content %}
+{% load widget_tweaks %}
+
+<div class="w-full h-screen flex justify-center items-center bg-grayy">
+    <div class="lg:w-[70%] w-full p-5 lg:h-[400px] h-screen bg-bluewhite">
+        <div class="bg-lightblue w-full lg:h-[100px] lg:py-8 py-6 px-5 mb-5">
+            <h1 class="lg:text-3xl text-[21px] font-bold text-bluee">Welcome, Update Your Profile</h1>
+        </div>
+    
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div>
+        
+                <div class="grid lg:grid-cols-3 grid-cols-1 w-[100%] gap-5">
+                    <div class="mb-4">
+                        <label class="text-gray-900 font-semibold">DOB:</label>
+                        {{ form.DOB|attr:"class:w-full block border-[1px] border-gray-400 h-10 rounded pl-3" }}
+                    </div>
+        
+                    <div class="mb-4">
+                        <label for="dropdown" class="text-gray-900 font-semibold">GENDER:</label>
+                        {{ form.gender|attr:"class:w-full block border-[1px] border-gray-400 h-10 rounded pl-3 py-2 text-base" }}
+                    </div>
+        
+                    <div class="mb-4">
+                        <label class="text-gray-900 font-semibold">NATIONALITY:</label>
+                        {{ form.nationality|attr:"class:w-full block border-[1px] border-gray-400 h-10 rounded pl-3" }}
+                    </div>
+                </div>
+        
+                <div class="mb-4">
+                    <label class="text-gray-900 font-semibold">EMAIL:</label>
+                    {{ form.email|attr:"class:w-full block border-[1px] border-gray-400 h-10 rounded pl-3" }}
+                </div>
+        
+                <div class="mb-4">
+                    <input type="submit" value="submit" class="px-4 py-2 block w-full bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                </div>
+            </div>
+        </form>
+        
+       
+    </div>
+</div>
+    
+{% endblock  %}

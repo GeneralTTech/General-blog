@@ -1,0 +1,145 @@
+{% extends "Base.html" %}
+
+{% block content %}
+{% load static %}
+{% load custom_filters %}
+
+
+<section class="w-full lg:pl-[150px] lg:pr-[100px] lg:px-0 px-[30px] grid lg:grid-cols-4 grid-cols-1">
+    <div class="lg:col-span-3 py-[60px] lg:pr-32">
+   
+        <div class="z-20 w-full flex whitespace-normal gap-x-6  justify-between border-b-[1px] py-4 px-2 rounded-sm mb-5 sticky top-0 bg-white overflow-x-auto">
+            <a href="{% url 'home_page' %}" class="lg:text-sm flex-shrink-0 hover:underline font-semibold lg:text-gray-800 text-black">All-post</a>
+            {% for category in categories %}
+            <a href="{% url 'post-by-category' category.slug %}" class="lg:text-sm flex-shrink-0 hover:underline font-semibold lg:text-gray-800 text-black">{{category.Category}}</a>
+            {% endfor %}  
+        </div> 
+        
+        
+        {% for post in posts %}
+        <div class="py-2 border-b-[1px] mb-4 lg:block hidden relative">
+            <!-- Post Author and Content -->
+            <a href="{% url 'about-user' post.user.username %}" class="flex items-center">
+                <div class="w-[40px] h-[40px] rounded-full">
+                    <img src="{{ post.user.profileimage.profile_picture.url }}" alt="" class="rounded-full w-[30px] h-[30px] object-cover">
+                </div>
+                <div class="ml-3">
+                    <p class="text-[15px] font-serif hover:underline">{{ post.user.username }} <span class="text-[13px] text-black">/in <span class="text-gray-500 text-[11px]">{{ post.category }}</span></span></p>
+                    <p class="text-[11px] text-gray-500 font-serif">{{ post.user.last_name }} {{ post.user.first_name }}</p>
+                </div>
+            </a>
+    
+            <!-- Post Content -->
+            <a href="{% url 'read_post_page' post.id %}" class="flex justify-between items-center py-3">
+                <div class="w-[60%]">
+                    <h1 class="lg:text-2xl text-lg font-bold">{{ post.title | truncatechars:40 }}</h1>
+                    <p class="truncate-html lg:text-lg text-sm mt-3 font-serif">{{ post.content | truncate_html:100 |safe }}</p>
+                </div>
+                <div>
+                    <div class="lg:w-[170px] lg:h-[120px] w-[100px] h-[70px]">
+                        {% if post.image %}
+                            <img src="{{ post.image.url }}" alt="post image" class="lg:w-[170px] lg:h-[120px] w-[100px] h-[70px] object-cover">
+                        {% endif %}
+                    </div>
+                </div>
+            </a>
+    
+            <!-- Dropdown Trigger and Menu -->
+            <div class="py-3 flex justify-between">
+                <p class="text-[14px] font-medium text-gray-600">{{ post.created|date:"F j, Y" }}</p>
+                <a href="{% url 'comment' post.id %}" class="flex bg-black px-2 py-1 justify-between rounded">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-white">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 0 1 1.037-.443 48.282 48.282 0 0 0 5.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+                    </svg> 
+                    <div class="px-2 text-white"> 
+                        {{ post.comment_count }}
+                    </div>
+                </a>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8 cursor-pointer group mr-12" onclick="toggleDropdown('dropDownmenu{{ forloop.counter }}')">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                </svg>
+            </div>
+    
+            <!-- Dropdown Menu -->
+            <div class="absolute w-[200px] bg-black text-white p-4 shadow-2xl top-36 right-20 rounded z-10 hidden group-hover:block" id="dropDownmenu{{ forloop.counter }}">
+                <a href="" class="block text-sm mb-2 font-semibold">Review</a>
+                {% if post.user == request.user %}
+                    <a href="{% url 'edit-post' post.id %}" class="block text-sm mb-2 font-semibold hover:text-green-600">Edit</a>
+                    <a href="{% url 'delete-post' post.id %}" class="block text-sm font-semibold hover:text-red-600">Delete</a>
+                {% endif %}
+            </div>
+        </div>
+    
+        <div class="py-2 border-b-[1px] mb-4 lg:hidden block">
+            
+            <a href="{% url 'about-user' post.user.username %}" class="flex items-center">
+                
+                <div class="w-[30px] h-[30px] rounded-full">
+
+                      <img src="{{ post.user.profileimage.profile_picture.url }}" alt="" class="rounded-full w-[30px] h-[30px] object-cover"> 
+                        
+                </div>
+    
+                <div class="ml-3">
+                    <p class="text-[14px] font-serif hover:underline">{{ post.user.last_name }} {{post.user.first_name}} /in {{ post.category | truncatechars:15}}</p>
+                </div>
+            </a>
+           <a href="{% url 'read_post_page' post.id %}" class="flex justify-between items-center py-3 mt-3">
+              <div class="w-[60%] ">
+                <h1 class=" text-lg font-bold">{{post.title | truncatechars:50}}</h1>
+                <p class="truncate-html text-sm mt-3 text-gray-600 font-serif">{{post.content | truncate_html:20 |safe}}</p>
+              </div>
+
+              <div>
+               <div class="w-[100px] h-[70px]">
+                {% if post.image %}
+                <img src="{{post.image.url}}" alt="profile_image" class=" w-[100px] h-[70px] object-cover">
+                {% endif %}
+
+               </div>
+              </div>
+           </a>
+           <div class="py-3 flex justify-between">
+               <p class="text-[14px] font-medium text-gray-600">{{ post.created|date:"F j, Y" }}</p>
+               <a href="{% url 'comment' post.id %}" class="flex bg-black px-2 py-1 justify-between rounded">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-white">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 0 1 1.037-.443 48.282 48.282 0 0 0 5.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+                </svg> 
+                <div class="px-2 text-white"> 
+                    {{ post.comment_count }}
+                </div>
+                </a>
+               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8 cursor-pointer group">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+            </svg>
+           </div>
+
+           <!-- Dropdown Menu -->
+           <div class="absolute right-0 w-[200px] bg-gray-100 p-4 shadow-2xl top-65 z-10 hidden group-hover:block">
+            {% if post.user == request.user %}
+                <a href="{% url 'edit-post' post.id %}" class="block text-sm mb-2 font-semibold hover:text-green-600">Edit</a>
+                <a href="{% url 'delete-post' post.id %}" class="block text-sm font-semibold hover:text-red-600">Delete</a>
+            {% endif %}
+        </div>
+        </div>
+        {% endfor %}
+            
+    </div>
+
+    <div class="h-[100vh] lg:block hidden sticky top-0 py-[30px] pl-[10px] border-l-[1px]">
+       <div class="mb-5">
+           <h1 class="text-2xl font-semibold">Advertisement.</h1>
+       </div>
+
+       <a href="" class="w-full h-[300px] mb-3 rounded">
+          <img src="{{ ads.image1.url }}" alt="" class="w-full h-[300px] mb-3 rounded object-cover">
+       </a>
+
+       <a href="" class="w-full h-[200px] rounded"> 
+          <img src="{{ ads.image2.url }}" alt="" class="w-full h-[200px] rounded object-cover">
+       </a>
+    
+    </div>
+</section>    
+
+{% endblock  %}

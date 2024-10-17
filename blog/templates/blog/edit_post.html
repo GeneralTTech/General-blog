@@ -1,0 +1,49 @@
+{% extends "Base_nav.html" %}
+
+{% block content %}
+{% load widget_tweaks %}
+{% load static %}
+<div class="w-full h-[110vh] flex justify-center px-2 items-center bg-white">
+    <div class="lg:w-[70%] w-full p-5 h-[600px] bg-white rounded-lg">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="mb-4">
+                {{ form.title|add_class:"form-input block w-full py-4 text-3xl font-serif px-4 rounded-lg border-none focus:outline-none focus:ring focus:ring-white"|attr:"placeholder:Title" }}
+            </div>
+
+            <div class="mb-4">
+                {{ form.category|add_class:"form-select block w-full p-2 border  border-gray-300" }}
+            </div>
+
+            <div class="mb-4">
+                {{ form.content|add_class:"form-textarea block w-full"|attr:"placeholder:Content" }}
+            </div>
+
+            <div class="mb-4">
+                {{ form.image|add_class:"form-input block w-full p-2 border rounded-lg border-gray-300" }}
+            </div>
+
+            <div class="mb-4">
+                <input type="submit" value="Publish" class="w-full block px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 cursor-pointer">
+            </div>
+         
+        </form>
+    </div>
+</div>
+
+<script src="{% static 'js/tinymce/tinymce.min.js' %}"></script>
+<script>
+    tinymce.init({
+        selector: '#id_content',
+        height: 300,
+        menubar: false,
+        plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+        toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons',
+        cleanup_on_startup: true,
+        custom_undo_redo_levels: 20,
+        directionality: 'ltr',
+        strict_loading_mode: true
+    });
+</script>
+{% endblock %}

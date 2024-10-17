@@ -1,0 +1,91 @@
+{% extends "Base.html" %}
+
+{% block content %}
+{% load static %}
+{% load custom_filters %}
+
+
+<div class="py-[50px] lg:px-[50px] px-[30px]">
+   <div class="lg:px-[250px] lg:pb-10 relative">
+       <div class="py-3">
+          <h1 class="lg:text-3xl text-2xl font-bold">{{post.title}}</h1>
+       </div>
+
+       <div class="mt-5 flex items-center mb-5">
+           <div class=" w-[50px] h-[50px] mr-7 rounded-full">
+            <img src="{{ post.user.profileimage.profile_picture.url }}" alt="" class="rounded-full w-[50px] h-[50px] object-cover">
+           </div>
+           <div>
+              <a href="{% url 'about-user' post.user.username %}" class="text-lg font-semibold hover:underline">{{ post.user.last_name }} {{post.user.first_name}}</a>
+              <p class="text-[14px] font-medium text-gray-600">{{ post.created|date:"F j, Y" }}</p>
+           </div>
+       </div>
+
+       <!-- Dropdown Trigger and Menu -->
+       <div class=" py-5 border-y-[1px] mb-8 flex justify-between">
+            <p class="text-[14px] font-medium text-gray-600">{{ post.created|date:"F j, Y" }}</p>
+            <a href="{% url 'comment' post.id %}" class="flex bg-black px-2 py-1 justify-between rounded">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-white">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 0 1 1.037-.443 48.282 48.282 0 0 0 5.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+                </svg> 
+                <div class="px-2 text-white"> 
+                    {{ post.comment_count }}
+                </div>
+            </a>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8 cursor-pointer group mr-12" onclick="toggleDropdown('dropDownmenu{{ forloop.counter }}')">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+            </svg>
+       </div>
+
+       <!-- Dropdown Menu -->
+       <div class="absolute w-[200px] bg-black text-white p-4 shadow-2xl right-20 top-32 rounded z-10 hidden group-hover:block" id="dropDownmenu{{ forloop.counter }}">
+            <a href="" class="block text-sm mb-2 font-semibold">Review</a>
+            {% if post.user == request.user %}
+                <a href="{% url 'edit-post' post.id %}" class="block text-sm mb-2 font-semibold hover:text-green-600">Edit post</a>
+                <a href="{% url 'delete-post' post.id %}" class="block text-sm font-semibold hover:text-red-600">Delete post</a>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if post.image %}
+    <div class="w-full h-[200px] lg:h-[500px]">
+        <img src="{{post.image.url}}" alt="profile_image" class="w-full h-[200px] lg:h-[500px] object-contain">
+    </div>
+    {% endif %}
+    <div class="flex w-full justify-center mt-2 mb-3">
+        <p class=" text-sm text-gray-600">photo by taiwo</p>
+    </div>
+
+    <div class="lg:px-[250px] lg:mt-8">
+        <p>{{post.content | safe }}</p>
+    </div>
+
+    <div class="mt-6 lg:px-[250px]">
+    <!-- Dropdown Trigger and Menu -->
+    <div class=" py-5 border-y-[1px] mb-8 flex justify-between">
+        <p class="text-[14px] font-medium text-gray-600">{{ post.created|date:"F j, Y" }}</p>
+        <a href="{% url 'comment' post.id %}" class="flex bg-black px-2 py-1 justify-between rounded">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-white">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.076-4.076a1.526 1.526 0 0 1 1.037-.443 48.282 48.282 0 0 0 5.68-.494c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z" />
+            </svg> 
+            <div class="px-2 text-white"> 
+                {{ post.comment_count }}
+            </div>
+        </a>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8 cursor-pointer group mr-12" onclick="toggleDropdown('dropDownmenu{{ forloop.counter }}')">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+        </svg>
+   </div>
+
+   <!-- Dropdown Menu -->
+   <div class="absolute w-[200px] bg-black text-white p-4 shadow-2xl right-20 top-32 rounded z-10 hidden group-hover:block" id="dropDownmenu{{ forloop.counter }}">
+        <a href="" class="block text-sm mb-2 font-semibold">Review</a>
+        {% if post.user == request.user %}
+            <a href="{% url 'edit-post' post.id %}" class="block text-sm mb-2 font-semibold hover:text-green-600">Edit post</a>
+            <a href="{% url 'delete-post' post.id %}" class="block text-sm font-semibold hover:text-red-600">Delete post</a>
+        {% endif %}
+    </div>
+    </div>
+</div>
+
+{% endblock  %}

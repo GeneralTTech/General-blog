@@ -1,0 +1,19 @@
+{% extends "Base_nav.html" %}
+
+
+{% block content %}
+
+<section class="w-full h-screen bg-gray-100 flex justify-center items-center">
+    <div class="lg:w-[50%] w-[90%] h-[250px] lg:px-10 px-8 flex flex-col justify-center items-center bg-white shadow-2xl">
+         <h1 class="lg:text-2xl text-lg text-center font-serif font-bold leading-[30px]">Are You Sure You Want To Delete this POST??</h1>
+        <form action="" method="post">
+            {% csrf_token %}
+               <div class="flex justify-between py-10 lg:w-[400px] w-[250px]">
+                <input type="submit" value="Yes" class="block py-2 px-8 font-semibold border-red-600 border text-black rounded hover:bg-red-600 hover:text-white">
+                <a href="{% url 'about-user' user.username %}" class="px-6 border-green-600 border font-semibold text-black rounded flex items-center hover:bg-green-600 hover:text-white">Back</a>
+               </div> 
+        </form>
+    </div>
+</section>
+    
+{% endblock  %}

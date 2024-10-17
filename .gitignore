@@ -1,0 +1,34 @@
+# Python
+*.py[cod]
+__pycache__/
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+env/
+*.env
+
+# Django static and media files
+/static/
+/media/
+
+# TailwindCSS and Node modules
+node_modules/
+tailwind.config.js
+postcss.config.js
+
+# Ignore local settings or secrets
+*.sqlite3
+db.sqlite3
+*.log
+local_settings.py
+.env
+
+# MacOS specific
+.DS_Store
+
+# TinyMCE (if you include downloaded files)
+tinymce/
+*.min.js
+*.map

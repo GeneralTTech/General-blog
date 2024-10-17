@@ -1,0 +1,22 @@
+{% load static %}
+<header class="flex w-full h-[60px] justify-between items-center px-[50px] border-b-[1px]">
+    <div class="lg:flex justify-between w-[370px]">
+        <a href="{% url 'home_page' %}">
+            <h1 class="lg:text-3xl text-lg font-serif font-bold">General</h1>
+        </a>
+    </div>
+
+    <div class="">
+       
+        <a href="{% url 'user-dashboard' %}">
+            <div class="w-[40px] h-[40px] rounded-full">
+                {% if request.user.profileimage %}
+                <img src="{{ request.user.profileimage.profile_picture.url }}" alt="" class="w-[40px] h-[40px] rounded-full object-cover">
+                {% endif %}
+            </div>
+        </a>
+    </div>
+</header>
+                
+
+    
